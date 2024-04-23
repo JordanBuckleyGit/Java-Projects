@@ -6,26 +6,22 @@ public class customer {
     protected boolean hasLicence, insurance;
     protected int numberOfDays, vehicleType;
     protected byte transmission;
+    float costOfRentalDaily = 0.0f; // Initialize the daily rental cost
+    float totalCostOfRental = 0.0f; // Initialize the total rental cost
+    float insuranceValue = 0.0f; // Initialize the insurance cost
+    float discountValue = 0.0f; // Initialize the discount value
+    float totalCost = 0.0f;
+
     public void printHeader() {
         System.out.println("--Welcome To Morrison's Island Rental--\n");
     }
 
-    public void customerDetails() {
-        gatherName();
-        gatherLicence();
-        gatherInsurance();
-        gatherRentalDuration();
-        gatherVehicleType();
-        gatherTransmission();
-        selectVehicle();
-    }
-
-    private void gatherName() {
+    public void gatherName() {
         System.out.print("Enter your name: ");
         this.name = sc.nextLine();
     }
 
-    private void gatherLicence() {
+    public void gatherLicence() {
         while (true) {
             System.out.print("Do you have a licence? y/n: ");
             String input = sc.nextLine();
@@ -37,6 +33,7 @@ public class customer {
                 this.hasLicence = false;
                 System.out.println("You don't have a licence. You are unable to rent a vehicle.");
                 // Do not proceed with rental process
+                gatherLicence();
                 break;
             } else {
                 System.out.println("Invalid input. Please enter y or n.");
@@ -44,7 +41,7 @@ public class customer {
         }
     }
 
-    private void enterLicenceNumber() {
+    public void enterLicenceNumber() {
         while (true) {
             System.out.print("Enter your driver's licence number (5 digits followed by 4 letters): ");
             licenceNumber = sc.nextLine();
@@ -90,7 +87,7 @@ public class customer {
         }
     }
 
-    private void gatherVehicleType() {
+    public void gatherVehicleType() {
         while (true) {
             System.out.println("What type of car would you like to rent 1,2 or 3?");
             System.out.println("1. Fuel (diesel or petrol)");
@@ -108,7 +105,7 @@ public class customer {
         sc.nextLine(); // Consume newline character
     }
 
-    private void gatherTransmission() {
+    public void gatherTransmission() {
         if (vehicleType == 1) {
             while (true) {
                 System.out.print("Which type of transmission would you like 1.Manual or 2. Automatic?: ");
@@ -125,22 +122,15 @@ public class customer {
         }
     }
 
-    private void selectVehicle() {
+    public void selectVehicle() {
         while (true) {
             System.out.print("Which type of vehicle would you like to rent? (C for car, B for bus): ");
             this.typeOfCar = sc.nextLine().toUpperCase();
             System.out.println("Selected vehicle type: " + typeOfCar); // Debug statement
 
-            if (typeOfCar.equals("C")) {
-                car car = new car();
-                car.carDetails();
-                car.calcCost(numberOfDays, insurance);
+            if (typeOfCar.equals("C") || typeOfCar.equals("B")) {
                 break;
-            } else if (typeOfCar.equals("B")) {
-                bus bus = new bus();
-                bus.busDetails();
-                bus.calcCost();
-                break;
+
             } else {
                 System.out.println("Invalid vehicle type. Please enter C or B.");
             }
@@ -174,15 +164,57 @@ public class customer {
             case 2:
                 System.out.printf("\nFuel type:\t\tElectric");break;
             case 3:
-                System.out.printf("\nFuel type:\t\tHybrid");
+                System.out.printf("\nFuel type:\t\tHybrid");break;
         }
         switch (this.transmission) {
             case 1:
                 System.out.printf("\nTransmission:\t\tManual");
                 break;
             case 2:
-                System.out.printf("\nTransmission:\t\tAutomatic");
+                System.out.printf("\nTransmission:\t\tAutomatic");break;
         }
 
     }
+
+    public void costDisplay() {
+        System.out.println("\n\nCost Breakdown:");
+        System.out.printf("%d days at €%,.2f/daily\n", this, this.costOfRentalDaily);
+        System.out.printf("Total Cost of Rental:\t€%,.2f\n", this.totalCostOfRental);
+        System.out.printf("Discount:\t\t€%,.2f\n", this.discountValue);
+        
+        System.out.print("Insurance:\t\t");
+        if (this.insurance) {
+            System.out.printf("€%,.2f\n", this.insuranceValue);
+        } else {
+            System.out.println("Customer has their own insurance");
+        }
+
+        totalCost = totalCostOfRental - discountValue + insuranceValue;
+        
+        System.out.printf("Total Cost:\t\t€%,.2f\n", this.totalCost);
+    }
+
+    public String getTypeOfCar() {
+        return typeOfCar;
+    }
+
+    public boolean isInsurance() {
+        return insurance;
+    }
+
+    public int getNumberOfDays() {
+        return numberOfDays;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSelectVehicle() {
+        return typeOfCar;
+    }
+
+    
+
+    
 }
