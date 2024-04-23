@@ -58,7 +58,7 @@ public class customer {
         }
     }
 
-    private void gatherInsurance() {
+    public void gatherInsurance() {
         while (true) {
             System.out.print("Do you have insurance? y/n: ");
             String insuranceAns = sc.nextLine();
@@ -76,7 +76,7 @@ public class customer {
         }
     }
 
-    private void gatherRentalDuration() {
+    public void gatherRentalDuration() {
         while (true) {
             System.out.print("How many days would you like to rent the car for?: ");
             int days = sc.nextInt();
@@ -134,7 +134,7 @@ public class customer {
             if (typeOfCar.equals("C")) {
                 car car = new car();
                 car.carDetails();
-                car.calcCost();
+                car.calcCost(numberOfDays, insurance);
                 break;
             } else if (typeOfCar.equals("B")) {
                 bus bus = new bus();
