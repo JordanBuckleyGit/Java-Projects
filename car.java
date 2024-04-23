@@ -49,7 +49,7 @@ public class car extends customer {
 
     }
     
-    public void calcCost() {
+    public void calcCost(numberOfDays, insurance) {
         float costOfRentalDaily = 0.0f; // Initialize the daily rental cost
         float totalCostOfRental = 0.0f; // Initialize the total rental cost
         float insuranceValue = 0.0f; // Initialize the insurance cost
@@ -71,7 +71,7 @@ public class car extends customer {
         totalCostOfRental = costOfRentalDaily * this.numberOfDays;
 
         // Insurance rule
-        if (this.insurance) {
+        if (insurance = false) {
             insuranceValue = 15.72f * this.numberOfDays;
         }
 
