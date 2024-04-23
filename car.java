@@ -3,6 +3,13 @@ public class car extends customer {
     protected float engineSize;
     protected String carPref, carChoice;
 
+    car(String name, String typeOfCar) {
+        this.name = name;
+        this.typeOfCar = typeOfCar;
+
+    }
+
+
     public void carDetails() {
         gatherEngineSize();
         gatherCarStyle();
@@ -18,7 +25,6 @@ public class car extends customer {
             System.out.println("Not a valid engine size, please re-enter one between 1.1 litres and 1.6 litres: ");
             gatherEngineSize(); // Recursively call method until a valid engine size is entered
         }
-        sc.nextLine(); // Consume newline character
     }
 
     private void gatherCarStyle() {
@@ -45,39 +51,32 @@ public class car extends customer {
             System.out.println("Invalid option. Please enter F or P.");
             gatherCarChoice(); // Recursively call method until a valid car choice is entered
         }
-        sc.nextLine(); // Consume newline character
-
     }
-    
-    public void calcCost(numberOfDays, insurance) {
-        float costOfRentalDaily = 0.0f; // Initialize the daily rental cost
-        float totalCostOfRental = 0.0f; // Initialize the total rental cost
-        float insuranceValue = 0.0f; // Initialize the insurance cost
-        float discountValue = 0.0f; // Initialize the discount value
+
+    public void calcCost(int numberOfDays, boolean insurance) {
 
         // Engine Size rules
-        if (this.engineSize > 1.3) {
+        if (engineSize > 1.3) {
             costOfRentalDaily += 45.67;
-        } else if (this.engineSize > 1.0) {
+        } else if (engineSize > 1.0) {
             costOfRentalDaily += 30.56;
         }
-
         // Car Type rules
-        if (this.carChoice.equals("P")) { // Assuming vehicleType represents car type
+        if (carChoice.equals("P")) { // Assuming vehicleType represents car type
             costOfRentalDaily += 2.99;
         }
 
         // Total Cost of Rental rule
-        totalCostOfRental = costOfRentalDaily * this.numberOfDays;
+        totalCostOfRental = costOfRentalDaily * numberOfDays;
 
         // Insurance rule
-        if (insurance = false) {
-            insuranceValue = 15.72f * this.numberOfDays;
+        if (insurance == false) {
+            insuranceValue = 15.72f * numberOfDays;
         }
 
         // Discount rule
         float discount = 0.0f; // Initialize the discount rate
-        if (this.numberOfDays > 10) {
+        if (numberOfDays > 10) {
             discount = 0.10f;
             discountValue = totalCostOfRental * discount;
         }
@@ -88,5 +87,26 @@ public class car extends customer {
         float totalCost = totalCostOfRental - discountValue + insuranceValue;
         System.out.println("Total cost is: " + totalCost);
     }
+
+    public void carDisplay() {
+        System.out.printf("\nEngine Size:\t\t%.1f\n", this.engineSize);
+
+        System.out.print("Boot:\t\t\t");
+        if (carPref.equals("H")) {
+            System.out.println("Hatchback");
+        } else if (carPref.equals("S")) {
+            System.out.println("Saloon");
+        }
+
+        System.out.print("Car size:\t\t");
+        if (carChoice.equals("F")) {
+            System.out.println("Family car");
+        } else if (carChoice.equals("P")) {
+            System.out.println("People carrier");
+        }
+    }
+
  
 }
+
+ 

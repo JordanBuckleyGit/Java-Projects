@@ -3,6 +3,12 @@ public class bus extends customer{
     protected int numPassengers;
     protected String busType, luxuryChoice;
 
+    bus(String name, String typeOfCar) {
+        this.name = name;
+        this.typeOfCar = typeOfCar;
+
+    }
+
     public void busDetails() {
         gatherPassengerCount();
         determineBusType();
