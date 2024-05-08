@@ -1,20 +1,20 @@
+/* Jordan Buckley - CC
+   date - 24/4/2024 */
 
+
+// Class representing a bus in the rental system
 public class bus extends customer{
-    protected int numPassengers;
-    protected String busType, luxuryChoice;
 
-    bus(String name, String typeOfCar) {
-        this.name = name;
-        this.typeOfCar = typeOfCar;
-
-    }
-
+    /*
+     * Gather details specific to a bus rental.
+     */
     public void busDetails() {
         gatherPassengerCount();
         determineBusType();
         gatherLuxuryChoice();
     }
 
+    // Method to gather passenger count input from the user
     private void gatherPassengerCount() {
         System.out.println("\nHow many passengers will be on your bus trip? (Maximum 48)");
         this.numPassengers = sc.nextInt();
@@ -28,6 +28,7 @@ public class bus extends customer{
         }
     }
 
+    // Method to determine the type of bus based on passenger count
     private void determineBusType() {
         if (numPassengers <= 16) {
             busType = "minibus";
@@ -38,6 +39,7 @@ public class bus extends customer{
         }
     }
 
+    // Method to gather luxury choice input from the user
     private void gatherLuxuryChoice() {
         System.out.println("Would you prefer a " + busType + " that is (L)uxury or (S)tandard?");
         sc.nextLine();
@@ -53,43 +55,67 @@ public class bus extends customer{
     }
 
 
-	
-    public void calcCost() {
-        double baseCost;
-        double insuranceCost = 0.0;
-        double luxuryCost = 0.0;
-    
+    // Calculate the rental costs for a bus
+    public float[] calcCost(int numberOfDays, boolean insurance) {
+        float[] costs = new float[6]; // Array to hold the cost values
+
+        float baseCost = 0.0f;
+        float totalBaseCost = 0.0f;
+        float insuranceCost = 0.0f;
+        float luxuryCost = 0.0f;
+        float discountValue = 0.0f;
+
         // Determine base cost based on selected bus type
         if (busType.equals("minibus")) {
-            baseCost = 480.0;
+            baseCost = 480.0f;
+            if (luxuryChoice.equals("L")) {
+                baseCost += 103.99f;
+            }
         } else {
-            baseCost = 578.99;
-        }
-    
-        // Apply discount for rentals longer than 10 days (if applicable)
-        if (numberOfDays > 10) {
-            baseCost *= 0.88; // 12% discount
-        }
-    
-        // Add insurance cost
-        if (insurance) {
-            insuranceCost = 99.99 * numberOfDays;
-        }
-    
-        // Add luxury cost (if applicable)
-        if (luxuryChoice.equals("L")) {
-            if (busType.equals("minibus")) {
-                luxuryCost = 103.99 * numberOfDays; // Luxury mini coach
-            } else {
-                luxuryCost = 123.99 * numberOfDays; // Luxury coach
+            baseCost = 578.99f;
+            if (luxuryChoice.equals("L")) {
+                baseCost += 123.99f;
             }
         }
-    
+        
+        totalBaseCost = baseCost * numberOfDays;
+
+        // Apply discount for rentals longer than 10 days (if applicable)
+        float discount = 0.12f;
+        if (numberOfDays > 10) {
+            discountValue = totalBaseCost * discount;
+        }
+
+        // Add insurance cost
+        if (!insurance) {
+            insuranceCost = 99.99f * numberOfDays;
+        }
+
         // Total cost calculation
-        double totalCost = baseCost * numberOfDays + insuranceCost + luxuryCost;
-    
-        // Print total cost
-        System.out.println("Total cost of bus rental: €" + totalCost);
+        float totalCost = totalBaseCost - discountValue + insuranceCost + luxuryCost;
+
+        // Assign calculated values to the array
+        costs[0] = baseCost;
+        costs[1] = insuranceCost;
+        costs[2] = luxuryCost; // This seems to be missing in your original code
+        costs[3] = totalCost;
+        costs[4] = discountValue;
+        costs[5] = totalBaseCost; // Add totalBaseCost to the array
+
+        return costs;
     }
-    
+
+    // Getters for bus details
+    public String getLuxuryChoice() {
+        return this.luxuryChoice;
+    }
+
+    public int getPassengers() {
+        return this.numPassengers;
+    }
+
+    public String getBusType() {
+        return this.busType;
+    }
+
 }
