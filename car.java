@@ -1,25 +1,24 @@
+/* Jordan Buckley - CC
+   date - 24/4/2024 */
 
+// Class representing a car in the rental system
 public class car extends customer {
-    protected float engineSize;
-    protected String carPref, carChoice;
 
-    car(String name, String typeOfCar) {
-        this.name = name;
-        this.typeOfCar = typeOfCar;
-
-    }
-
-
+    /*
+     * Gather details specific to a car rental.
+     */
     public void carDetails() {
         gatherEngineSize();
         gatherCarStyle();
         gatherCarChoice();
     }
 
+    // Method to gather engine size input from the user
     private void gatherEngineSize() {
         System.out.print("\nWhat size engine do you require in your car rental? (Please enter a value between 1.1 liters and 1.6 liters): ");
         this.engineSize = sc.nextFloat();
-        if (engineSize >= 1.1 && engineSize <= 1.6) {
+        sc.nextLine(); // Consume newline character
+        if (engineSize >= 1.1 && engineSize < 1.7) {
             System.out.println("Great! We have cars with an engine size of " + engineSize + " liters available.");
         } else {
             System.out.println("Not a valid engine size, please re-enter one between 1.1 litres and 1.6 litres: ");
@@ -27,6 +26,7 @@ public class car extends customer {
         }
     }
 
+    // Method to gather car style preference input from the user
     private void gatherCarStyle() {
         System.out.print("\nWhat type of car body style would you prefer? (H for hatchback, S for saloon): ");
         this.carPref = sc.nextLine().toUpperCase();
@@ -40,6 +40,7 @@ public class car extends customer {
         }
     }
 
+    // Method to gather car choice input from the user
     private void gatherCarChoice() {
         System.out.print("\nWhich car would you prefer to rent? (F for family car or P for people carrier): ");
         this.carChoice = sc.nextLine().toUpperCase();
@@ -52,8 +53,17 @@ public class car extends customer {
             gatherCarChoice(); // Recursively call method until a valid car choice is entered
         }
     }
-
-    public void calcCost(int numberOfDays, boolean insurance) {
+    
+    /*
+     * Calculate the rental costs for a car.
+     * @return Array containing the calculated costs
+     */
+    public float[] calcCost(int numberOfDays, boolean insurance) {
+        float[] costs = new float[5]; // Array to hold the cost values
+    	float costOfRentalDaily = 0.0f; // Initialize the daily rental cost
+        float totalCostOfRental = 0.0f; // Initialize the total rental cost
+        float insuranceValue = 0.0f; // Initialize the insurance cost
+        float discountValue = 0.0f; // Initialize the discount value
 
         // Engine Size rules
         if (engineSize > 1.3) {
@@ -68,9 +78,9 @@ public class car extends customer {
 
         // Total Cost of Rental rule
         totalCostOfRental = costOfRentalDaily * numberOfDays;
-
+        
         // Insurance rule
-        if (insurance == false) {
+        if (!insurance) {
             insuranceValue = 15.72f * numberOfDays;
         }
 
@@ -81,32 +91,27 @@ public class car extends customer {
             discountValue = totalCostOfRental * discount;
         }
 
-        // Total Cost rule
-        System.out.println("insurance: "+insuranceValue);
-        System.out.println("Days: "+numberOfDays);
         float totalCost = totalCostOfRental - discountValue + insuranceValue;
-        System.out.println("Total cost is: " + totalCost);
+        
+        costs[0] = costOfRentalDaily;
+        costs[1] = totalCostOfRental;
+        costs[2] = discountValue;
+        costs[3] = insuranceValue;
+        costs[4] = totalCost;
+        return costs;
+    }
+    
+    // Getters for car details
+    public float getEngineSize() {
+        return this.engineSize;
     }
 
-    public void carDisplay() {
-        System.out.printf("\nEngine Size:\t\t%.1f\n", this.engineSize);
-
-        System.out.print("Boot:\t\t\t");
-        if (carPref.equals("H")) {
-            System.out.println("Hatchback");
-        } else if (carPref.equals("S")) {
-            System.out.println("Saloon");
-        }
-
-        System.out.print("Car size:\t\t");
-        if (carChoice.equals("F")) {
-            System.out.println("Family car");
-        } else if (carChoice.equals("P")) {
-            System.out.println("People carrier");
-        }
+    public String getCarPref() {
+        return this.carPref;
     }
 
- 
+    public String getCarChoice() {
+        return this.carChoice;
+    }
+
 }
-
- 
