@@ -30,7 +30,3 @@ This repository contains a Java program for managing vehicles, specifically cars
 ### Contribution:
 
 Contributions are welcome! Feel free to fork this repository, make changes, and submit pull requests. Bug fixes, feature enhancements, and code refactoring are all appreciated.
-
-### License:
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
