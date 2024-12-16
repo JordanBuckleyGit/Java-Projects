@@ -34,9 +34,3 @@ Contributions are welcome! Feel free to fork this repository, make changes, and 
 ### License:
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
-### Contact:
-
-For any questions or suggestions regarding this program, feel free to contact the author at your@email.com.
-
-Thank you for using the Car Program in Java! Happy coding!
